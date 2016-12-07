@@ -1,5 +1,6 @@
 #Install ubuntu
 FROM ubuntu:14.04
+FROM jgmanzanas/ODocker
 
 # Install.
 RUN \
