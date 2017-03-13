@@ -21,13 +21,17 @@ RUN apt-get -y upgrade
 
 RUN apt-get install --force-yes -y python byobu curl htop man unzip vim wget git python-software-properties software-properties-common postgresql-9.5 postgresql-client-9.5 postgresql-contrib-9.5 pkg-config
 
+COPY visiotech.sql /home/dump/visiotech.sql
+
 USER postgres
 
 RUN /etc/init.d/postgresql start && \
   psql --command "CREATE USER root WITH SUPERUSER CREATEDB CREATEROLE LOGIN PASSWORD 'komklave';" && \
-  psql --command "CREATE USER comunitea WITH CREATEDB CREATEROLE LOGIN PASSWORD 'komklave';"
-
-USER root
+  psql --command "CREATE USER comunitea WITH CREATEDB CREATEROLE LOGIN PASSWORD 'komklave';" && \
+  createdb -O root visiotech_docker_real && \
+  psql -d visiotech_docker_real < /home/dump/visiotech.sql && \
+  psql -d visiotech_docker_real --command "update ir_cron set active = false;" && \
+  psql -d visiotech_docker_real --command "delete from ir_mail_server;"
 
 # Adjust PostgreSQL configuration so that remote connections to the
 # database are possible.
@@ -45,4 +49,3 @@ VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
 # Set the default command to run when starting the container
 CMD ["/usr/lib/postgresql/9.5/bin/postgres", "-D", "/var/lib/postgresql/9.5/main", "-c", "config_file=/etc/postgresql/9.5/main/postgresql.conf"]
 
-USER postgres
