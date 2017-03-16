@@ -39,9 +39,9 @@ RUN pip install --upgrade virtualenv
 
 RUN pip install --upgrade matplotlib
 
-RUN useradd -ms /bin/bash -p 'komklave' administrador
+RUN useradd -ms /bin/bash -p 'komklave' nferreyra
 
-WORKDIR /home/administrador
+WORKDIR /home/nferreyra
 
 # Expose the Odoo port
-EXPOSE 9169 9071
+EXPOSE 9069 9071

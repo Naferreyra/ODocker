@@ -31,7 +31,11 @@ RUN /etc/init.d/postgresql start && \
   createdb -O root visiotech_docker_real && \
   psql -d visiotech_docker_real < /home/dump/visiotech.sql && \
   psql -d visiotech_docker_real --command "update ir_cron set active = false;" && \
-  psql -d visiotech_docker_real --command "delete from ir_mail_server;"
+  psql -d visiotech_docker_real --command "delete from ir_mail_server;" && \
+  createdb -O root visiotech_real && \
+  psql -d visiotech_real < /home/dump/visiotech.sql && \
+  psql -d visiotech_real --command "update ir_cron set active = false;" && \
+  psql -d visiotech_real --command "delete from ir_mail_server;"
 
 # Adjust PostgreSQL configuration so that remote connections to the
 # database are possible.
