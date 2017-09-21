@@ -17,9 +17,11 @@ RUN wget http://security.ubuntu.com/ubuntu/pool/main/g/gcc-5/libstdc++6_5.3.1-14
 
 RUN wget http://security.ubuntu.com/ubuntu/pool/main/g/gcc-5/gcc-5-base_5.3.1-14ubuntu2_amd64.deb
 
-RUN wget http://download.gna.org/wkhtmltopdf/0.12/0.12.2.1/wkhtmltox-0.12.2.1_linux-trusty-amd64.deb
+RUN wget https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.2.1/wkhtmltox-0.12.2.1_linux-trusty-amd64.deb
 
-RUN apt-get install --force-yes -y openerp-server-system-build-deps python byobu curl htop man unzip vim wget git libreadline-dev libcups2-dev python-pip python-dev build-essential python-matplotlib pkg-config postgresql-9.5 postgresql-client-9.5 postgresql-contrib-9.5 sudo xvfb xfonts-75dpi
+RUN apt-get install --force-yes -y openerp-server-system-build-deps python byobu curl htop man unzip vim wget git libreadline-dev libcups2-dev python-pip python-dev build-essential python-matplotlib pkg-config postgresql-9.5 postgresql-client-9.5 postgresql-contrib-9.5 sudo xvfb xfonts-75dpi autoconf libtool python-opengl python-imaging python-pyrex python-pyside.qtopengl idle-python2.7 qt4-dev-tools qt4-designer libqtgui4 libqtcore4 libqt4-xml libqt4-test libqt4-script libqt4-network libqt4-dbus python-qt4 python-qt4-gl libgle3 libssl-dev
+
+RUN apt-get install -y libblas-dev liblapack-dev libatlas-base-dev gfortran
 
 RUN dpkg -i gcc-5-base_5.3.1-14ubuntu2_amd64.deb
 
@@ -32,16 +34,46 @@ RUN dpkg -i wkhtmltox-0.12.2.1_linux-trusty-amd64.deb
     #cp wkhtmltopdf /usr/local/bin/
 
 RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys E1DD270288B4E6030699E45FA1715D88E1DF1F24
-
+    
 RUN pip install -U pip setuptools
 
 RUN pip install --upgrade virtualenv
 
 RUN pip install --upgrade matplotlib
 
-RUN useradd -ms /bin/bash -p 'komklave' nferreyra
+RUN pip install Flask
 
-WORKDIR /home/nferreyra
+RUN pip install Flask-XML-RPC
+
+RUN pip install flask-peewee
+
+RUN pip install pyOpenSSL
+
+RUN pip install pyasn1
+
+RUN pip install ndg-httpsclient
+
+RUN pip install cryptography
+
+RUN pip install idna
+
+RUN pip install certifi
+
+RUN pip install scipy
+
+RUN pip install seaborn
+
+RUN useradd -ms /bin/bash -p 'komklave' administrador
+
+#RUN usermod -a -G root,ssl-cert,postgres administrador
+
+#USER postgres
+
+#CMD ["/etc/init.d/postgresql", "start"]
+
+WORKDIR /home/administrador/ProjectRED/odooProject
+
+USER administrador
 
 # Expose the Odoo port
-EXPOSE 9069 9071
+EXPOSE 9069 9071 5000
