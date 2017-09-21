@@ -13,13 +13,13 @@ RUN apt-key adv --keyserver hkp://p80.pool.sks-keyservers.net:80 --recv-keys B97
 
 # Add PostgreSQL's repository. It contains the most recent stable release
 #     of PostgreSQL, ``9.3``.
-RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main 9.5" > /etc/apt/sources.list.d/postgresql.list
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main 9.6" > /etc/apt/sources.list.d/postgresql.list
 
 RUN apt-get update
 
 RUN apt-get -y upgrade
 
-RUN apt-get install --force-yes -y python byobu curl htop man unzip vim wget git python-software-properties software-properties-common postgresql-9.5 postgresql-client-9.5 postgresql-contrib-9.5 pkg-config
+RUN apt-get install --force-yes -y python byobu curl htop man unzip vim wget git python-software-properties software-properties-common postgresql-9.6 postgresql-client-9.6 postgresql-contrib-9.6 pkg-config
 
 COPY visiotech.sql /home/dump/visiotech.sql
 
@@ -31,18 +31,14 @@ RUN /etc/init.d/postgresql start && \
   createdb -O root visiotech_docker_real && \
   psql -d visiotech_docker_real < /home/dump/visiotech.sql && \
   psql -d visiotech_docker_real --command "update ir_cron set active = false;" && \
-  psql -d visiotech_docker_real --command "delete from ir_mail_server;" && \
-  createdb -O root visiotech_real && \
-  psql -d visiotech_real < /home/dump/visiotech.sql && \
-  psql -d visiotech_real --command "update ir_cron set active = false;" && \
-  psql -d visiotech_real --command "delete from ir_mail_server;"
+  psql -d visiotech_docker_real --command "delete from ir_mail_server;"
 
 # Adjust PostgreSQL configuration so that remote connections to the
 # database are possible.
-RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/9.5/main/pg_hba.conf
+RUN echo "host all  all    0.0.0.0/0  md5" >> /etc/postgresql/9.6/main/pg_hba.conf
 
-# And add ``listen_addresses`` to ``/etc/postgresql/9.5/main/postgresql.conf``
-RUN echo "listen_addresses='*'" >> /etc/postgresql/9.5/main/postgresql.conf
+# And add ``listen_addresses`` to ``/etc/postgresql/9.6/main/postgresql.conf``
+RUN echo "listen_addresses='*'" >> /etc/postgresql/9.6/main/postgresql.conf
 
 # Expose the PostgreSQL port
 EXPOSE 5432
@@ -51,5 +47,5 @@ EXPOSE 5432
 VOLUME  ["/etc/postgresql", "/var/log/postgresql", "/var/lib/postgresql"]
 
 # Set the default command to run when starting the container
-CMD ["/usr/lib/postgresql/9.5/bin/postgres", "-D", "/var/lib/postgresql/9.5/main", "-c", "config_file=/etc/postgresql/9.5/main/postgresql.conf"]
+CMD ["/usr/lib/postgresql/9.6/bin/postgres", "-D", "/var/lib/postgresql/9.6/main", "-c", "config_file=/etc/postgresql/9.6/main/postgresql.conf"]
 
