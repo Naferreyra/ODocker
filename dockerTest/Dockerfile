@@ -76,9 +76,9 @@ RUN cd /home/administrador/ProjectRED/odooProject && \
     git init && \
     git remote add origin https://github.com/jgmanzanas/CMNT_004_15.git && \
     virtualenv sandbox --no-setuptools && \
-    sandbox/bin/python bootstrap.py -c devel_buildoutVT.cfg && \
-    bin/buildout -c devel_buildoutVT.cfg && \
-    bin/start_openerp -d visiotech_real --update all
+    /home/administrador/ProjectRED/odooProject/sandbox/bin/python bootstrap.py -c devel_buildoutVT.cfg && \
+    /home/administrador/ProjectRED/odooProject/bin/buildout -c devel_buildoutVT.cfg && \
+    /home/administrador/ProjectRED/odooProject/bin/start_openerp -d visiotech_real --update all
 
 WORKDIR /home/administrador/ProjectRED/odooProject
 
