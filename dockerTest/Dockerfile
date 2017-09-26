@@ -72,7 +72,7 @@ COPY devel_buildoutVT.cfg /home/administrador/ProjectRED/odooProject
 
 COPY devel_odoo.cfg /home/administrador/ProjectRED/odooProject
 
-RUN cd ProjectRED/odooProject && \
+RUN cd /home/administrador/ProjectRED/odooProject && \
     git init && \
     git remote add origin https://github.com/jgmanzanas/CMNT_004_15.git && \
     virtualenv sandbox --no-setuptools && \
