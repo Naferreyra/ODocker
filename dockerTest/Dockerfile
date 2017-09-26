@@ -65,7 +65,8 @@ RUN pip install seaborn
 
 RUN useradd -ms /bin/bash -p 'komklave' administrador
 
-RUN mkdir /home/administrador/ProjectRED/odooProject && \
+RUN mkdir /home/administrador/ProjectRED && \
+    mkdir /home/administrador/ProjectRED/odooProject
 
 COPY devel_buildoutVT.cfg /home/administrador/ProjectRED/odooProject
 
