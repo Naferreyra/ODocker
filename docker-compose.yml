@@ -1,0 +1,37 @@
+version: "3"
+services:
+  odoo:
+    # replace username/repo:tag with your name and image details
+    image: odoo:testVNet
+    container_name: odoo
+    external_links:
+      - visiotech_docker_real
+      - flask
+    depends_on:
+      - flask
+    volumes:
+      - "/home/administrador/ProjectRED/odooProject:/home/administrador/ProjectRED/odooProject"
+    ports:
+      - "9169:9069"
+    expose:
+      - "9169"
+    networks:
+      - my-net
+  flask:
+    image: odoo:testVNet
+    container_name: flask
+    external_links:
+      - visiotech_docker_real 
+    volumes:
+      - "/home/administrador/ProjectRED/odooProject:/home/administrador/ProjectRED/odooProject"
+    ports:
+      - "5100:5000"
+    expose:
+      - "5100"
+    entrypoint:
+      - bin/start_flask_app.sh
+    networks:
+      - my-net
+
+networks:
+  my-net:

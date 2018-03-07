@@ -3,6 +3,8 @@ FROM ubuntu:trusty
 
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
+COPY sources.list /etc/apt/sources.list
+
 RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main 9.5" > /etc/apt/sources.list.d/postgresql.list
 
 RUN apt-get update
@@ -63,18 +65,17 @@ RUN pip install scipy
 
 RUN pip install seaborn
 
+RUN pip install https://pypi.python.org/packages/33/27/e3978243a03a76398c384c83f7ca879bc6e8f1511233a621fcada135606e/Babel-1.3.tar.gz#md5=5264ceb02717843cbc9ffce8e6e06bdb
+
 RUN useradd -ms /bin/bash -p 'komklave' administrador
+
+VOLUME /home/administrador/ProjectRED/odooProject
 
 WORKDIR /home/administrador/ProjectRED/odooProject
 
 USER administrador
 
 # Expose the Odoo port
-EXPOSE 9069 9071 5000 
+EXPOSE 9069 9071 5000
 
-#ENTRYPOINT ["./dockerUbuntuEndpoint.sh"]
-
-#ENTRYPOINT ["bin/start_openerp", "-d", "visiotech_real", "--update", "flask_middleware_connector"]
-#"$module"]
-
-#ENTRYPOINT ["bin/start_flask_app.sh"]
+ENTRYPOINT ["./buildout.sh"]
