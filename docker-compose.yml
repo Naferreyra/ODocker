@@ -12,9 +12,9 @@ services:
     volumes:
       - "/home/administrador/ProjectRED/odooProject:/home/administrador/ProjectRED/odooProject"
     ports:
-      - "9169:9069"
+      - "9069:9069"
     expose:
-      - "9169"
+      - "9069"
     networks:
       - my-net
   flask:
@@ -25,9 +25,9 @@ services:
     volumes:
       - "/home/administrador/ProjectRED/odooProject:/home/administrador/ProjectRED/odooProject"
     ports:
-      - "5100:5000"
+      - "5000:5000"
     expose:
-      - "5100"
+      - "5000"
     entrypoint:
       - bin/start_flask_app.sh
     networks:

@@ -19,6 +19,8 @@ RUN wget http://security.ubuntu.com/ubuntu/pool/main/g/gcc-5/gcc-5-base_5.3.1-14
 
 RUN wget https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.2.1/wkhtmltox-0.12.2.1_linux-trusty-amd64.deb
 
+RUN wget https://pypi.python.org/packages/33/27/e3978243a03a76398c384c83f7ca879bc6e8f1511233a621fcada135606e/Babel-1.3.tar.gz#md5=5264ceb02717843cbc9ffce8e6e06bdb
+
 RUN apt-get install --force-yes -y openerp-server-system-build-deps python byobu curl htop man unzip vim wget git libreadline-dev libcups2-dev python-pip python-dev build-essential python-matplotlib pkg-config postgresql-9.5 postgresql-client-9.5 postgresql-contrib-9.5 sudo xvfb xfonts-75dpi autoconf libtool python-opengl python-imaging python-pyrex python-pyside.qtopengl idle-python2.7 qt4-dev-tools qt4-designer libqtgui4 libqtcore4 libqt4-xml libqt4-test libqt4-script libqt4-network libqt4-dbus python-qt4 python-qt4-gl libgle3 libssl-dev
 
 RUN apt-get install -y libblas-dev liblapack-dev libatlas-base-dev gfortran
@@ -63,6 +65,8 @@ RUN pip install scipy
 
 RUN pip install seaborn
 
+RUN pip install https://pypi.python.org/packages/33/27/e3978243a03a76398c384c83f7ca879bc6e8f1511233a621fcada135606e/Babel-1.3.tar.gz#md5=5264ceb02717843cbc9ffce8e6e06bdb
+
 RUN useradd -ms /bin/bash -p 'komklave' administrador
 
 RUN mkdir /home/administrador/ProjectRED && \
@@ -76,7 +80,7 @@ WORKDIR /home/administrador/ProjectRED/odooProject
 
 RUN git init && \
     git remote add origin https://github.com/jgmanzanas/CMNT_004_15.git && \
-    virtualenv sandbox --no-setuptools
+    virtualenv sandbox --no-setuptools &&
 
 RUN sandbox/bin/python bootstrap.py -c devel_buildoutVT.cfg
 RUN bin/buildout -c devel_buildoutVT.cfg
