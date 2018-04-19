@@ -79,7 +79,7 @@ COPY devel_odoo.cfg /home/administrador/ProjectRED/odooProject
 WORKDIR /home/administrador/ProjectRED/odooProject
 
 RUN git init && \
-    git remote add origin https://github.com/jgmanzanas/CMNT_004_15.git && \
+    git remote add origin https://github.com/Naferreyra/CMNT_004_15.git && \
     virtualenv sandbox --no-setuptools &&
 
 RUN sandbox/bin/python bootstrap.py -c devel_buildoutVT.cfg
