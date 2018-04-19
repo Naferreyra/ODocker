@@ -14,7 +14,7 @@ Se ha mantenido la generacion del componente de BBDD por separado.
 Se ha incluido un contenedor de Odoo propio solo para hacer buildout, revisar en la seccion procedente.
 
 ### Red virtual
-Anted de genererar cualquier imagen y cualquier contenedor, debemos de generar la red virtual. Necesitamos esta red para que nuestros contenedores sean capaces de tener acceso entre ellos. Para crear la red virtual ejecutaremos el siguiente comando:
+Antes de genererar cualquier imagen y cualquier contenedor, debemos de generar la red virtual. Necesitamos esta red para que nuestros contenedores sean capaces de tener acceso entre ellos. Para crear la red virtual ejecutaremos el siguiente comando:
 ```commandline
 docker network create {my-net}
 ```
@@ -31,8 +31,11 @@ docker create -p 5432:5432  --network {my-net} --name {container_name} {tag}:{ve
 ```
 Ahora podemos ejecutar nuestro contenedor con normalidad:
 ```commandline
-docker run {container_name}
+docker start {container_name}
 ```
+### Imagen Odoo
+Para el contenedor de Odoo, volvemos a la raíz del proyecto y construimos la imagen de la misma forma que en el paso anterior.
+
 ### Docker-compose
 Antes de ejecutar el docker-compose, hay que revisar el archivo docker-compose.yml y modificar las siguientes secciones:
 - La ruta de la seccion 'volumes' a la ruta del proyecto en local.
@@ -50,11 +53,11 @@ docker-compose run flask
 docker-compose run odoo
 docker-compose up
 ```
-###Contenedor Buildout
+### Contenedor Buildout
 Para evitar tener que utilizar la bash del contenedor de Odoo y hacer el buildout, se ha decidido hacer un contenedor solo para esto.
-La imagen de este contenedor es parecida a la de Odoo normal, pero hay algunas modificacionnes improtantes, debido a esto se ha introducido 
+La imagen de este contenedor es parecida a la de Odoo normal, pero hay algunas modificaciones importantes, debido a esto se ha introducido 
 en una nueva carpeta.
  
-Hay que modificar el script buildout.sh para cambiar el user y el email de git al del usuario objetivo.
+Hay que modificar el script buildout.sh para cambiar el user y el email de git al del usuario objetivo y copiarlo en la carpeta donde está el proyecto de Odoo.
 
 Construir el contenedor y hacer un docker run con flag `-it` para ver la salida del buildout por consola. 
