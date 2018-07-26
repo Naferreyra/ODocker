@@ -3,11 +3,17 @@ FROM ubuntu:trusty
 
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
-RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main 9.5" > /etc/apt/sources.list.d/postgresql.list
+COPY sources.list /etc/apt/sources.list
+
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main 9.6" > /etc/apt/sources.list.d/postgresql.list
 
 RUN apt-get update
 
 RUN apt-get -y upgrade
+
+RUN apt-get install --force-yes -y libblas-dev liblapack-dev libatlas-base-dev gfortran libgeos-dev
+
+RUN apt-get install --force-yes -y postgis postgresql-9.6-postgis-2.4
 
 RUN apt install --force-yes -y wget software-properties-common python-software-properties
 
@@ -17,11 +23,7 @@ RUN wget http://security.ubuntu.com/ubuntu/pool/main/g/gcc-5/gcc-5-base_5.3.1-14
 
 RUN wget https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.2.1/wkhtmltox-0.12.2.1_linux-trusty-amd64.deb
 
-RUN wget https://pypi.python.org/packages/33/27/e3978243a03a76398c384c83f7ca879bc6e8f1511233a621fcada135606e/Babel-1.3.tar.gz#md5=5264ceb02717843cbc9ffce8e6e06bdb
-
-RUN apt-get install --force-yes -y openerp-server-system-build-deps python byobu curl htop man unzip vim wget git libreadline-dev libcups2-dev python-pip python-dev build-essential python-matplotlib pkg-config postgresql-9.5 postgresql-client-9.5 postgresql-contrib-9.5 sudo xvfb xfonts-75dpi autoconf libtool python-opengl python-imaging python-pyrex python-pyside.qtopengl idle-python2.7 qt4-dev-tools qt4-designer libqtgui4 libqtcore4 libqt4-xml libqt4-test libqt4-script libqt4-network libqt4-dbus python-qt4 python-qt4-gl libgle3 libssl-dev
-
-RUN apt-get install -y libblas-dev liblapack-dev libatlas-base-dev gfortran
+RUN apt-get install --force-yes -y openerp-server-system-build-deps python byobu curl htop man unzip vim wget git libreadline-dev libcups2-dev python-pip python-dev build-essential python-matplotlib pkg-config postgresql-9.6 postgresql-client-9.6 postgresql-contrib-9.6 sudo xvfb xfonts-75dpi autoconf libtool python-opengl python-imaging python-pyrex python-pyside.qtopengl idle-python2.7 qt4-dev-tools qt4-designer libqtgui4 libqtcore4 libqt4-xml libqt4-test libqt4-script libqt4-network libqt4-dbus python-qt4 python-qt4-gl libgle3 libssl-dev
 
 RUN dpkg -i gcc-5-base_5.3.1-14ubuntu2_amd64.deb
 
@@ -39,7 +41,7 @@ RUN pip install -U pip setuptools
 
 RUN pip install --upgrade virtualenv
 
-RUN pip install --upgrade matplotlib
+RUN pip install --upgrade matplotlib --ignore-installed six
 
 RUN pip install Flask
 
