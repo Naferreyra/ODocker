@@ -17,22 +17,22 @@ Hay varios archivos que debemos conocer.
 ### Red virtual
 Antes de genererar cualquier imagen y cualquier contenedor, debemos de generar la red virtual. Necesitamos esta red para que nuestros contenedores sean capaces de tener acceso entre ellos. Para crear la red virtual ejecutaremos el siguiente comando:
 ```commandline
-docker network create {my-net}
+docker network create <my_net>
 ```
 Ahora ya tenemos nuestra red virtual, ya que docker gestiona por si solo el rango de ip y las demas configuraciones, 
 por lo que no necesitamos tocar nada mas.
 ## Contenedor BBDD
 Para el contenedor de BBDD, entramos dentro de la carpeta dockerPostgres y construimos la imagen del contendor:
 ```commandline
-docker build -t {tag}:{version} .
+docker build -t <tag>:<version> .
 ```
 Una vez tengamos esto, podemos crear el contenedor a partir de la imagen y asociamos el contenedor a nuestra red virtual:
 ```commandline
-docker create -p 5432:5432  --network {my-net} --name {container_name} {tag}:{version}
+docker create -p 5432:5432  --network <my_net> --name <container_name> <tag>:<version>
 ```
 Ahora podemos ejecutar nuestro contenedor con normalidad:
 ```commandline
-docker start {container_name}
+docker start <container_name>
 ```
 ## Odoo
 Para crear el contenedor de odoo, primero hemos de hacer un buildout, que servirá de base para crear odoo. Para esto vamos a crear un contenedor previo exclusivo para el buildout.
@@ -47,7 +47,11 @@ Construir el contenedor y hacer un docker run con flag `-it` para ver la salida 
 
 Después, en la carpeta del proyecto hemos de bajarnos el repositorio:
 
-`aqui comandos para bajarselo`
+```commandline
+git init
+git remote add origin <repo_url>
+git pull origin 11.0
+```
 
 ### Contenedor Odoo
 Construir una imagen a partir del contenido de la carpeta dockerLocal. Una vez construida la imagen lanzar el contenedor de odoo. Podemos hacerlo de varias formas.
@@ -55,4 +59,7 @@ La primera sería lanzarlo con `docker create` y posteriormente hacer `docker st
 
 Al crearlo debemos de añadir el volumen del contenedor, que corresponderá con la carpeta donde hayamos hecho el buildout.
 
-`aqui comando de ejemplo para contenedor`
+Ejemplo:
+```commandline
+docker create -p 9069:9069 -p 9002:9002 --network <my_net> --name <container_name> -v /home/path/to/local/project:/home/adminsitrador/ProjectRED/odooProject <image_tag>:<version>
+```
