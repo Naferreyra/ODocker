@@ -1,17 +1,18 @@
 # ODocker
-Solucion en Docker para OpenERP y PostgreSQL proveniente de https://github.com/Naferreyra/CMNT_004_15
-## Consideraciones previas
+Solucion en Docker para Odoo y PostgreSQL proveniente de https://github.com/Naferreyra/CMNT_004_15
+### Consideraciones previas
 Antes de hacer nada, es necesario tener en cuenta que el contenedor de la BBDD debe de estar ejecutandose antes de ejecutar el contenedor de Flask y de Odoo.
 
 El orden de ejecucion de los contenedores deberia de ser BBDD->Flask->Odoo aunque los dos ultimos se pueden intercambiar.
 
 Revisar los Dockerfile para cambiar las rutas que sean necesarias o que se deseen modificar por comodidad. 
-## V1.0
-Se ha actualizado el proyecto a docker-compose de tal forma que se pueda ejecutar cada contenedor de Odoo, Flask y BBDD por separado
+### Archivos a tener en cuenta
+Hay varios archivos que debemos conocer.
 
-Se ha mantenido la generacion del componente de BBDD por separado.
-
-Se ha incluido un contenedor de Odoo propio solo para hacer buildout, revisar en la seccion procedente.
+* **Dockerfile**: archivo para construir la imagen de docker
+* **buildout.sh**: script que desencadena el buildout de odoo
+* **devel_odoo.cfg**: archivo de configuración de odoo de desarrollo
+* **devel_buildout.cfg**: archivo de configuración del buildout de desarrollo
 
 ### Red virtual
 Antes de genererar cualquier imagen y cualquier contenedor, debemos de generar la red virtual. Necesitamos esta red para que nuestros contenedores sean capaces de tener acceso entre ellos. Para crear la red virtual ejecutaremos el siguiente comando:
@@ -20,7 +21,7 @@ docker network create {my-net}
 ```
 Ahora ya tenemos nuestra red virtual, ya que docker gestiona por si solo el rango de ip y las demas configuraciones, 
 por lo que no necesitamos tocar nada mas.
-### Contenedor BBDD
+## Contenedor BBDD
 Para el contenedor de BBDD, entramos dentro de la carpeta dockerPostgres y construimos la imagen del contendor:
 ```commandline
 docker build -t {tag}:{version} .
@@ -33,31 +34,25 @@ Ahora podemos ejecutar nuestro contenedor con normalidad:
 ```commandline
 docker start {container_name}
 ```
-### Imagen Odoo
-Para el contenedor de Odoo, volvemos a la raíz del proyecto y construimos la imagen de la misma forma que en el paso anterior.
+## Odoo
+Para crear el contenedor de odoo, primero hemos de hacer un buildout, que servirá de base para crear odoo. Para esto vamos a crear un contenedor previo exclusivo para el buildout.
 
-### Docker-compose
-Antes de ejecutar el docker-compose, hay que revisar el archivo docker-compose.yml y modificar las siguientes secciones:
-- La ruta de la seccion 'volumes' a la ruta del proyecto en local.
-- La seccion 'networks' de cada servicio, indicando el nombre de la red virtual que se ha creado.
-- Los nombres de las imagenes.
-- En la seccion 'networks' global, cambiar nombre de la red por la red que se ha creado.
-
-Una vez tengamos esto ya podemos hacer nuestro docker-compose:
-```commandline
-docker-compose build
-```
-Cuando este comando termine podemos levantar los servicios con el siguiente comando:
-```commandline
-docker-compose run flask
-docker-compose run odoo
-docker-compose up
-```
 ### Contenedor Buildout
-Para evitar tener que utilizar la bash del contenedor de Odoo y hacer el buildout, se ha decidido hacer un contenedor solo para esto.
-La imagen de este contenedor es parecida a la de Odoo normal, pero hay algunas modificaciones importantes, debido a esto se ha introducido 
-en una nueva carpeta.
- 
+Este contenedor se encargará de generar todo el sistema de directorios necesarios para ejecutar odoo, así como los diferentes módulos que utilizamos del core, y de la comunidad.
+Para esto tenemos la carpeta Buildout.
+
 Hay que modificar el script buildout.sh para cambiar el user y el email de git al del usuario objetivo y copiarlo en la carpeta donde está el proyecto de Odoo.
 
 Construir el contenedor y hacer un docker run con flag `-it` para ver la salida del buildout por consola. 
+
+Después, en la carpeta del proyecto hemos de bajarnos el repositorio:
+
+`aqui comandos para bajarselo`
+
+### Contenedor Odoo
+Construir una imagen a partir del contenido de la carpeta dockerLocal. Una vez construida la imagen lanzar el contenedor de odoo. Podemos hacerlo de varias formas.
+La primera sería lanzarlo con `docker create` y posteriormente hacer `docker start -i`. Si queremos que el contenedor sea volátil, podemos crearlo con `docker run` y el flag `-rm`.
+
+Al crearlo debemos de añadir el volumen del contenedor, que corresponderá con la carpeta donde hayamos hecho el buildout.
+
+`aqui comando de ejemplo para contenedor`
