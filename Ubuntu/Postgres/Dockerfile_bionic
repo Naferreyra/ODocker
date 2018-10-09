@@ -1,5 +1,5 @@
 #Install ubuntu
-FROM ubuntu:trusty
+FROM ubuntu:bionic
 
 MAINTAINER visiotech
 
@@ -7,13 +7,13 @@ RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
 RUN apt-get update && apt-get install -y gnupg && apt-get install -y wget
 
-RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ bionic-pgdg main" > /etc/apt/sources.list.d/pgdg.list
 
 RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 
 RUN apt-get update
 
-RUN apt-get install -y postgresql-10 postgresql-client-10 postgresql-contrib-9.6
+RUN apt-get install -y postgresql-10
 
 USER postgres
 

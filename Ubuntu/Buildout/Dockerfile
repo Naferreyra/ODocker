@@ -1,5 +1,5 @@
 #Install ubuntu
-FROM ubuntu:trusty
+FROM ubuntu:xenial
 
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
@@ -7,7 +7,7 @@ ENV LANG C.UTF-8
 
 COPY sources.list /etc/apt/sources.list
 
-RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main" > /etc/apt/sources.list.d/pgdg.list
 
 # RUN echo "deb http://apt.anybox.fr/openerp common main" > /etc/apt/sources.list
 
@@ -25,12 +25,14 @@ RUN apt-get update
 
 # TARDA MUCHO -> RUN apt-key adv --keyserver hkp://subkeys.pgp.net --recv-keys 0xE38CEB07
 
+# RUN apt-get install -y libc-dev-bin libc6 libc-dev libc6-dev libexpat1-dev libpython3.5-dev
+
 RUN apt-get install -y python3.5-dev
 
 RUN apt-get install -y libreadline-dev
 RUN apt-get install -y cups libcups2-dev
 
-RUN apt-get install --force-yes -y openerp-server-system-build-deps python3 byobu curl htop man unzip vim git libreadline-dev libcups2-dev python3-pip build-essential python3-matplotlib pkg-config postgresql-10 postgresql-client-10 postgresql-contrib-9.6 sudo xvfb xfonts-75dpi autoconf libtool python3-opengl python3-imaging python3-pyside.qtopengl qt4-dev-tools qt4-designer libqtgui4 libqtcore4 libqt4-xml libqt4-test libqt4-script libqt4-network libqt4-dbus libgle3 libssl-dev node-less
+RUN apt-get install --force-yes -y openerp-server-system-build-deps python3 byobu curl htop man unzip vim git libreadline-dev libcups2-dev python3-pip build-essential python3-matplotlib pkg-config postgresql-10 postgresql-client-10 postgresql-contrib-9.6 sudo xvfb xfonts-75dpi autoconf libtool python3-opengl python3-pyside.qtopengl qt4-dev-tools qt4-designer libqtgui4 libqtcore4 libqt4-xml libqt4-test libqt4-script libqt4-network libqt4-dbus libgle3 libssl-dev node-less
 
 RUN pip3 install -U pip setuptools
 
@@ -55,6 +57,10 @@ RUN pip3 install idna
 RUN pip3 install certifi
 
 RUN pip3 install scipy
+
+RUN pip3 install psycogreen
+
+RUN pip3 install xmlsig
 
 RUN pip3 install --ignore-installed seaborn
 
