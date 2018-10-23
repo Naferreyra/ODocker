@@ -12,8 +12,8 @@ Hay varios archivos que debemos conocer.
 * **devel_odoo.cfg**: archivo de configuración de odoo de desarrollo
 * **devel_buildout.cfg**: archivo de configuración del buildout de desarrollo
 
-#TAREAS
+# TAREAS
 
--[X] Hacer los archivos para odoo local en ubuntu
--[ ] Hacer los archivos para test
--[ ] Hacer los archivos para odoo local en Windows
+- [X] Hacer los archivos para odoo local en ubuntu
+- [ ] Hacer los archivos para test
+- [ ] Hacer los archivos para odoo local en Windows
