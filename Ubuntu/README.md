@@ -5,7 +5,9 @@ Antes de hacer nada, es necesario tener en cuenta que el contenedor de la BBDD d
 
 El orden de ejecucion de los contenedores deberia de ser BBDD->Flask->Odoo aunque los dos ultimos se pueden intercambiar.
 
-Revisar los Dockerfile para cambiar las rutas que sean necesarias o que se deseen modificar por comodidad. 
+Revisar los Dockerfile para cambiar las rutas que sean necesarias o que se deseen modificar por comodidad.
+A su vez, revisar los archivos y sustituir los usuarios y las contraseñas correspondientes.
+
 ### Archivos a tener en cuenta
 Hay varios archivos que debemos conocer.
 

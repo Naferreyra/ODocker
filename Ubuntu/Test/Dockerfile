@@ -1,73 +1,70 @@
 #Install ubuntu
-FROM ubuntu:trusty
+FROM ubuntu:xenial
 
 RUN rm /bin/sh && ln -s /bin/bash /bin/sh
 
+ENV LANG C.UTF-8
+
 COPY sources.list /etc/apt/sources.list
 
-RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main 9.6" > /etc/apt/sources.list.d/postgresql.list
+RUN echo "deb http://apt.postgresql.org/pub/repos/apt/ xenial-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+
+# RUN echo "deb http://apt.anybox.fr/openerp common main" > /etc/apt/sources.list
 
 RUN apt-get update
 
 RUN apt-get -y upgrade
 
-RUN apt-get install --force-yes -y libblas-dev liblapack-dev libatlas-base-dev gfortran libgeos-dev
+RUN apt-get install -y wget
 
-RUN apt-get install --force-yes -y postgis postgresql-9.6-postgis-2.4
+RUN apt-get install -y gnupg
 
-RUN apt install --force-yes -y wget software-properties-common python-software-properties
+RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 
-RUN wget http://security.ubuntu.com/ubuntu/pool/main/g/gcc-5/libstdc++6_5.3.1-14ubuntu2_amd64.deb
+RUN apt-get update
 
-RUN wget http://security.ubuntu.com/ubuntu/pool/main/g/gcc-5/gcc-5-base_5.3.1-14ubuntu2_amd64.deb
+# TARDA MUCHO -> RUN apt-key adv --keyserver hkp://subkeys.pgp.net --recv-keys 0xE38CEB07
 
-RUN wget https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.2.1/wkhtmltox-0.12.2.1_linux-trusty-amd64.deb
+# RUN apt-get install -y libc-dev-bin libc6 libc-dev libc6-dev libexpat1-dev libpython3.5-dev
 
-RUN apt-get install --force-yes -y openerp-server-system-build-deps python byobu curl htop man unzip vim wget git libreadline-dev libcups2-dev python-pip python-dev build-essential python-matplotlib pkg-config postgresql-9.6 postgresql-client-9.6 postgresql-contrib-9.6 sudo xvfb xfonts-75dpi autoconf libtool python-opengl python-imaging python-pyrex python-pyside.qtopengl idle-python2.7 qt4-dev-tools qt4-designer libqtgui4 libqtcore4 libqt4-xml libqt4-test libqt4-script libqt4-network libqt4-dbus python-qt4 python-qt4-gl libgle3 libssl-dev
+RUN apt-get install -y python3.5-dev
 
-RUN dpkg -i gcc-5-base_5.3.1-14ubuntu2_amd64.deb
+RUN apt-get install -y libreadline-dev
+RUN apt-get install -y cups libcups2-dev
 
-RUN dpkg -i libstdc++6_5.3.1-14ubuntu2_amd64.deb
+RUN apt-get install --force-yes -y --fix-missing openerp-server-system-build-deps python3 byobu curl htop man unzip vim git libreadline-dev libcups2-dev python3-pip build-essential python3-matplotlib pkg-config postgresql-10 postgresql-client-10 postgresql-contrib-9.6 sudo xvfb xfonts-75dpi autoconf libtool python3-opengl python3-pyside.qtopengl qt4-dev-tools qt4-designer libqtgui4 libqtcore4 libqt4-xml libqt4-test libqt4-script libqt4-network libqt4-dbus libgle3 libssl-dev node-less
 
-RUN dpkg -i wkhtmltox-0.12.2.1_linux-trusty-amd64.deb
+RUN pip3 install -U pip setuptools
 
-#RUN tar -Jxvf wkhtmltox-0.12.2.1_linux-generic-amd64.tar.xz && \
-    #cd wkhtmltox/bin && \
-    #cp wkhtmltopdf /usr/local/bin/
+RUN pip3 install --upgrade virtualenv
 
-RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys E1DD270288B4E6030699E45FA1715D88E1DF1F24
+RUN pip3 install Flask
 
-RUN pip install -U pip setuptools
+RUN pip3 install Flask-XML-RPC
 
-RUN pip install --upgrade virtualenv
+RUN pip3 install flask-peewee
 
-RUN pip install --upgrade matplotlib --ignore-installed six
+RUN pip3 install pyOpenSSL
 
-RUN pip install Flask
+RUN pip3 install pyasn1
 
-RUN pip install Flask-XML-RPC
+RUN pip3 install ndg-httpsclient
 
-RUN pip install flask-peewee
+RUN pip3 install cryptography
 
-RUN pip install pyOpenSSL
+RUN pip3 install idna
 
-RUN pip install pyasn1
+RUN pip3 install certifi
 
-RUN pip install ndg-httpsclient
+RUN pip3 install scipy
 
-RUN pip install cryptography
+RUN pip3 install psycogreen
 
-RUN pip install idna
+RUN pip3 install xmlsig
 
-RUN pip install certifi
+RUN pip3 install --ignore-installed seaborn
 
-RUN pip install scipy
-
-RUN pip install seaborn
-
-RUN pip install https://pypi.python.org/packages/33/27/e3978243a03a76398c384c83f7ca879bc6e8f1511233a621fcada135606e/Babel-1.3.tar.gz#md5=5264ceb02717843cbc9ffce8e6e06bdb
-
-RUN useradd -ms /bin/bash -p 'komklave' administrador
+RUN useradd -ms /bin/bash -p 'contraseña_bbdd' administrador
 
 RUN mkdir /home/administrador/ProjectRED && \
     mkdir /home/administrador/ProjectRED/odooProject
@@ -78,13 +75,16 @@ COPY devel_odoo.cfg /home/administrador/ProjectRED/odooProject
 
 WORKDIR /home/administrador/ProjectRED/odooProject
 
+RUN git config --global user.email "email_git"
+RUN git config --global user.name "usuario_git"
+
 RUN git init && \
     git remote add origin https://github.com/Naferreyra/CMNT_004_15.git && \
     virtualenv sandbox --no-setuptools
 
 RUN sandbox/bin/python bootstrap.py -c devel_buildoutVT.cfg
 RUN bin/buildout -c devel_buildoutVT.cfg
-RUN bin/start_openerp -d visiotech_real --update all
+RUN bin/start_odoo -d visiotech_real --update all
 
 USER administrador
 

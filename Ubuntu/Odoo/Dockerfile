@@ -32,6 +32,12 @@ RUN apt-get install -y cups libcups2-dev
 
 RUN apt-get install --force-yes -y openerp-server-system-build-deps python3.5 byobu curl htop man unzip vim git libreadline-dev libcups2-dev python3-pip build-essential python3-matplotlib pkg-config postgresql-10 postgresql-client-10 postgresql-contrib-9.6 sudo xvfb xfonts-75dpi autoconf libtool python3-opengl python3-pyside.qtopengl qt4-dev-tools qt4-designer libqtgui4 libqtcore4 libqt4-xml libqt4-test libqt4-script libqt4-network libqt4-dbus libgle3 libssl-dev node-less
 
+#NUEVO-----
+RUN wget https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.4/wkhtmltox-0.12.4_linux-generic-amd64.tar.xz
+RUN tar xvf wkhtmltox*.tar.xz
+RUN mv wkhtmltox/bin/wkhtmlto* /usr/bin
+#----------
+
 RUN pip3 install -U pip setuptools
 
 RUN pip3 install --upgrade virtualenv
@@ -64,7 +70,7 @@ RUN pip3 install psycogreen
 
 RUN pip3 install xmlsig
 
-RUN useradd -ms /bin/bash -p 'komklave' administrador
+RUN useradd -ms /bin/bash -p 'contraseña_bbdd' administrador
 
 VOLUME /home/administrador/ProjectRED/odooProject
 
@@ -81,8 +87,8 @@ EXPOSE 9069 9071 5000 9002
 #COPY devel_odoo.cfg /home/administrador/ProjectRED/odooProject/odoo.cfg
 #COPY devel_buildout.cfg /home/administrador/ProjectRED/odooProject/buildout.cfg
 
-#RUN git config --global user.email "rcerrillo@visiotechsecurity.com"
-#RUN git config --global user.name "rcerrillo2"
+#RUN git config --global user.email "email_git"
+#RUN git config --global user.name "usuario_git"
 
 #RUN virtualenv -p python3 sandbox
 

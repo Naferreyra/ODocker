@@ -64,7 +64,7 @@ RUN pip3 install xmlsig
 
 RUN pip3 install --ignore-installed seaborn
 
-RUN useradd -ms /bin/bash -p 'komklave' administrador
+RUN useradd -ms /bin/bash -p 'contraseña_bbdd' administrador
 
 VOLUME /home/administrador/ProjectRED/odooProject
 
@@ -83,8 +83,8 @@ ENTRYPOINT ["./buildout.sh"]
 #COPY devel_odoo.cfg /home/administrador/ProjectRED/odooProject/odoo.cfg
 #COPY devel_buildout.cfg /home/administrador/ProjectRED/odooProject/buildout.cfg
 
-#RUN git config --global user.email "rcerrillo@visiotechsecurity.com"
-#RUN git config --global user.name "rcerrillo2"
+#RUN git config --global user.email "email_git"
+#RUN git config --global user.name "usuario_git"
 
 #RUN virtualenv -p python3 sandbox
 
