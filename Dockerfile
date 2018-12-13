@@ -65,7 +65,7 @@ RUN pip install scipy
 
 RUN pip install seaborn
 
-RUN useradd -ms /bin/bash -p 'komklave' administrador
+RUN useradd -ms /bin/bash -p 'db_pass' administrador
 
 WORKDIR /home/administrador/ProjectRED/odooProject
 

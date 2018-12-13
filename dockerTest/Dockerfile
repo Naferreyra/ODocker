@@ -67,7 +67,7 @@ RUN pip install seaborn
 
 RUN pip install https://pypi.python.org/packages/33/27/e3978243a03a76398c384c83f7ca879bc6e8f1511233a621fcada135606e/Babel-1.3.tar.gz#md5=5264ceb02717843cbc9ffce8e6e06bdb
 
-RUN useradd -ms /bin/bash -p 'komklave' administrador
+RUN useradd -ms /bin/bash -p 'db_pass' administrador
 
 RUN mkdir /home/administrador/ProjectRED && \
     mkdir /home/administrador/ProjectRED/odooProject

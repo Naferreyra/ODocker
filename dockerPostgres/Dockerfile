@@ -24,8 +24,8 @@ COPY visiotech.sql /home/dump/visiotech.sql
 USER postgres
 
 RUN /etc/init.d/postgresql start && \
-  psql --command "CREATE USER root WITH SUPERUSER CREATEDB CREATEROLE LOGIN PASSWORD 'komklave';" && \
-  psql --command "CREATE USER comunitea WITH CREATEDB CREATEROLE LOGIN PASSWORD 'komklave';"
+  psql --command "CREATE USER root WITH SUPERUSER CREATEDB CREATEROLE LOGIN PASSWORD 'db_pass';" && \
+  psql --command "CREATE USER db_user WITH CREATEDB CREATEROLE LOGIN PASSWORD 'db_pass';"
 
 # Adjust PostgreSQL configuration so that remote connections to the
 # database are possible.
