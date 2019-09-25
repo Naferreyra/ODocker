@@ -74,6 +74,8 @@ COPY devel_buildoutVT.cfg /home/administrador/ProjectRED/odooProject
 
 COPY devel_odoo.cfg /home/administrador/ProjectRED/odooProject
 
+COPY devel_base-odoo-pgcontrib.cfg /home/administrador/ProjectRED/odooProject
+
 WORKDIR /home/administrador/ProjectRED/odooProject
 
 RUN git config --global user.email "email_git"
