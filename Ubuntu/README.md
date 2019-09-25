@@ -63,7 +63,7 @@ Al crearlo debemos de añadir el volumen del contenedor, que corresponderá con 
 
 Ejemplo:
 ```commandline
-docker create -p 9069:9069 -p 9002:9002 --network <my_net> --name <container_name> -v /home/path/to/local/project:/home/adminsitrador/ProjectRED/odooProject <image_tag>:<version>
+docker create -p 9069:9069 -p 9002:9002 --network <my_net> --name <container_name> -v /home/path/to/local/project:/home/administrador/ProjectRED/odooProject <image_tag>:<version>
 ```
 
 ## TEST
