@@ -21,16 +21,26 @@ RUN apt-get install -y gnupg
 
 RUN wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 
+RUN apt install software-properties-common -y
+
+RUN add-apt-repository ppa:deadsnakes/ppa -y
 RUN apt-get update
+RUN apt-get install python3.6 -y
+RUN apt-get install python3.6-dev -y
+
+RUN wget https://bootstrap.pypa.io/get-pip.py
+RUN python3.6 get-pip.py
+RUN ln -s /usr/bin/python3.6 /usr/local/bin/python3
 
 # TARDA MUCHO -> RUN apt-key adv --keyserver hkp://subkeys.pgp.net --recv-keys 0xE38CEB07
-
-RUN apt-get install -y python3.5-dev
 
 RUN apt-get install -y libreadline-dev
 RUN apt-get install -y cups libcups2-dev
 
-RUN apt-get install --force-yes -y openerp-server-system-build-deps python3.5 byobu curl htop man unzip vim git libreadline-dev libcups2-dev python3-pip build-essential python3-matplotlib pkg-config postgresql-10 postgresql-client-10 postgresql-contrib-9.6 sudo xvfb xfonts-75dpi autoconf libtool python3-opengl python3-pyside.qtopengl qt4-dev-tools qt4-designer libqtgui4 libqtcore4 libqt4-xml libqt4-test libqt4-script libqt4-network libqt4-dbus libgle3 libssl-dev node-less
+RUN apt-get update
+
+RUN apt-get install --force-yes -y --fix-missing openerp-server-system-build-deps python3.6 byobu curl htop man unzip vim git libreadline-dev libcups2-dev python3-pip build-essential python3-matplotlib pkg-config  sudo xvfb xfonts-75dpi autoconf libtool python3-opengl python3-pyside.qtopengl qt4-dev-tools qt4-designer libqtgui4 libqtcore4 libqt4-xml libqt4-test libqt4-script libqt4-network libqt4-dbus libgle3 libssl-dev node-less
+RUN apt-get install -y postgresql-10 postgresql-client-10 postgresql-contrib-9.6
 
 #NUEVO-----
 RUN wget https://github.com/wkhtmltopdf/wkhtmltopdf/releases/download/0.12.4/wkhtmltox-0.12.4_linux-generic-amd64.tar.xz
@@ -70,7 +80,7 @@ RUN pip3 install psycogreen
 
 RUN pip3 install xmlsig
 
-RUN useradd -ms /bin/bash -p 'contraseña_bbdd' administrador
+RUN useradd -ms /bin/bash -p 'komklave' administrador
 
 VOLUME /home/administrador/ProjectRED/odooProject
 
@@ -95,5 +105,3 @@ EXPOSE 9069 9071 5000 9002
 #RUN sandbox/bin/python3 bootstrap.py -c buildout.cfg
 
 #RUN bin/buildout -c buildout.cfg
-
-
